@@ -1,0 +1,22 @@
+Linked
+======
+This plugin allows you to link a group of chests, so that when they are opened, the contents are the same, even if the chests are seperated by great distances.
+
+Commands
+--------
+ -  `/link <groupname>` - Start a link command. Next left-click the chest that should be linked, and it will be linked to `<groupname>`.
+ -  `/unlink` - Start an unlink command. Next left-click a chest, and any linkage on it will be removed.
+
+Features
+--------
+ -  Causes multiple chests to share a single inventory, the size of a double chest.
+ -  Works with multiple user accessing the inventory simultaneously.
+ -  Chests can be unlinked manually, or by destroying the chest.
+
+Todo
+----
+ -  Support for permissions.
+ -  Support for persistance. Currently the contents of virtual inventories are lost if the plugin is reload or the server restarted. This is bad.
+ -  Fill virtual chest with contents of real ones upon linking.
+ -  Proper support for double chests.
+ -  Make sure items don't get lost in the aether when the last linked chest is destroyed.
