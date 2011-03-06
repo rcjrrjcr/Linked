@@ -15,14 +15,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Plugin for Bukkit. Links together chests, so their contents are synchronized.
- *
+ * 
  * @author Mythmon
  */
 public class Linked extends JavaPlugin {
     private final LinkedPlayerListener playerListener = new LinkedPlayerListener(this);
     private final LinkedBlockListener blockListener = new LinkedBlockListener(this);
     private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
-    
+
     public final Map<Block, String> chestNames = new HashMap<Block, String>();
     public final Map<String, InventoryLargeChest> chestGroups = new HashMap<String, InventoryLargeChest>();
     public final Map<Player, String> nextActions = new HashMap<Player, String>();
@@ -30,10 +30,11 @@ public class Linked extends JavaPlugin {
     public void onDisable() {
         // TODO: Write data to disk
 
-        // EXAMPLE: Custom code, here we just output some info so we can check all is well
+        // EXAMPLE: Custom code, here we just output some info so we can check
+        // all is well
         PluginDescriptionFile pdfFile = this.getDescription();
-        System.out.println( pdfFile.getName() + " version " + pdfFile.getVersion() + " is disabled." );
-    
+        System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is disabled.");
+
     }
 
     public void onEnable() {
@@ -45,9 +46,10 @@ public class Linked extends JavaPlugin {
         pm.registerEvent(Event.Type.BLOCK_DAMAGED, blockListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.BLOCK_INTERACT, blockListener, Priority.Normal, this);
 
-        // EXAMPLE: Custom code, here we just output some info so we can check all is well
+        // EXAMPLE: Custom code, here we just output some info so we can check
+        // all is well
         PluginDescriptionFile pdfFile = this.getDescription();
-        System.out.println( pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled." );
+        System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled.");
     }
 
     public boolean isDebugging(final Player player) {
