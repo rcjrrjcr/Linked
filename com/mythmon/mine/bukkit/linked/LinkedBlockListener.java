@@ -9,6 +9,7 @@ import org.bukkit.block.BlockDamageLevel;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockInteractEvent;
 import org.bukkit.event.block.BlockListener;
@@ -54,13 +55,7 @@ public class LinkedBlockListener extends BlockListener {
         Player p = (Player) e;
 
         if (b.getType() == Material.CHEST) {
-            if (plugin.isDebugging(p)) {
-                p.sendMessage("Checking if that chest is linked...");
-            }
             if (plugin.chestNames.containsKey(b)) {
-                if (plugin.isDebugging(p)) {
-                    p.sendMessage("It is.");
-                }
                 String groupName = plugin.chestNames.get(b);
                 InventoryLargeChest virtChest;
                 if (!plugin.chestGroups.containsKey(groupName)) {
@@ -74,14 +69,23 @@ public class LinkedBlockListener extends BlockListener {
                 }
 
                 EntityPlayer ep = ((CraftPlayer) p).getHandle();
-                ep.a(virtChest); // ep.a is a obfuscated method name. It will
-                                 // show the virtual chest to the player.
+                // ep.a is a obfuscated method name. It will show the virtual
+                // chest to the player.
+                ep.a(virtChest);
                 event.setCancelled(true);
-            } else {
-                if (plugin.isDebugging(p)) {
-                    p.sendMessage("It isn't.");
-                }
             }
+        }
+    }
+
+    @Override
+    public void onBlockBreak(BlockBreakEvent event) {
+        Block b = event.getBlock();
+        Player p = event.getPlayer();
+
+        if (b.getType() == Material.CHEST && plugin.chestNames.containsKey(b)) {
+            String groupName = plugin.chestNames.get(b);
+            plugin.chestNames.remove(b);
+            p.sendMessage("You unlinked that chest from " + groupName);
         }
     }
 
@@ -131,7 +135,5 @@ public class LinkedBlockListener extends BlockListener {
                 p.sendMessage("That's not a chest. Action canceled.");
             }
         }
-
     }
-
 }

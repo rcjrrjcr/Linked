@@ -45,9 +45,8 @@ public class Linked extends JavaPlugin {
         pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.BLOCK_DAMAGED, blockListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.BLOCK_INTERACT, blockListener, Priority.Normal, this);
+        pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
 
-        // EXAMPLE: Custom code, here we just output some info so we can check
-        // all is well
         PluginDescriptionFile pdfFile = this.getDescription();
         System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled.");
     }
