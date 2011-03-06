@@ -57,16 +57,7 @@ public class LinkedBlockListener extends BlockListener {
         if (b.getType() == Material.CHEST) {
             if (plugin.chestNames.containsKey(b)) {
                 String groupName = plugin.chestNames.get(b);
-                InventoryLargeChest virtChest;
-                if (!plugin.chestGroups.containsKey(groupName)) {
-                    TileEntityVirtualChest chest1, chest2;
-                    chest1 = new TileEntityVirtualChest();
-                    chest2 = new TileEntityVirtualChest();
-                    virtChest = new InventoryLargeChest("Linked Chest", chest1, chest2);
-                    plugin.chestGroups.put(groupName, virtChest);
-                } else {
-                    virtChest = plugin.chestGroups.get(groupName);
-                }
+                InventoryLargeChest virtChest = plugin.chestGroups.get(groupName);
 
                 EntityPlayer ep = ((CraftPlayer) p).getHandle();
                 // ep.a is a obfuscated method name. It will show the virtual
@@ -83,8 +74,7 @@ public class LinkedBlockListener extends BlockListener {
         Player p = event.getPlayer();
 
         if (b.getType() == Material.CHEST && plugin.chestNames.containsKey(b)) {
-            String groupName = plugin.chestNames.get(b);
-            plugin.chestNames.remove(b);
+            String groupName = unlinkChest(b);
             p.sendMessage("You unlinked that chest from " + groupName);
         }
     }
@@ -102,31 +92,16 @@ public class LinkedBlockListener extends BlockListener {
         if (action.startsWith("link,")) {
             String groupName = action.split(",")[1];
             if (m == Material.CHEST) {
-                String loc = "(" + b.getLocation().getBlockX() + ", " + b.getLocation().getBlockY() + ", "
-                        + b.getLocation().getBlockZ() + ")";
-                p.sendMessage("Linked the chest at " + loc + " to the group named " + groupName);
-
-                plugin.chestNames.put(b, groupName);
-
-                InventoryLargeChest virtChest;
-                if (!plugin.chestGroups.containsKey(groupName)) {
-                    TileEntityVirtualChest chest1, chest2;
-                    chest1 = new TileEntityVirtualChest();
-                    chest2 = new TileEntityVirtualChest();
-                    virtChest = new InventoryLargeChest("Linked Chest", chest1, chest2);
-                    plugin.chestGroups.put(groupName, virtChest);
-                } else {
-                    virtChest = plugin.chestGroups.get(groupName);
-                }
+                p.sendMessage("Linked to " + groupName + ".");
+                linkChest(b, groupName);
             } else {
-                p.sendMessage("Linking to group " + groupName + " canceled");
+                p.sendMessage("Linking to group " + groupName + " canceled.");
             }
             plugin.nextActions.remove(p);
         } else if (action.equals("unlink")) {
             if (m == Material.CHEST) {
                 if (plugin.chestNames.containsKey(b)) {
-                    String groupName = plugin.chestNames.get(b);
-                    plugin.chestNames.remove(b);
+                    String groupName = unlinkChest(b);
                     p.sendMessage("Chest succesfully unlinked from " + groupName + ".");
                 } else {
                     p.sendMessage("That chest isn't linked to anything. Action canceled.");
@@ -134,6 +109,35 @@ public class LinkedBlockListener extends BlockListener {
             } else {
                 p.sendMessage("That's not a chest. Action canceled.");
             }
+        }
+    }
+
+    /**
+     * @param b
+     * @return
+     */
+    private String unlinkChest(Block b) {
+        String groupName = plugin.chestNames.get(b);
+        plugin.chestNames.remove(b);
+        return groupName;
+    }
+
+    /**
+     * @param b
+     * @param groupName
+     */
+    private void linkChest(Block b, String groupName) {
+        plugin.chestNames.put(b, groupName);
+
+        InventoryLargeChest virtChest;
+        if (!plugin.chestGroups.containsKey(groupName)) {
+            TileEntityVirtualChest chest1, chest2;
+            chest1 = new TileEntityVirtualChest();
+            chest2 = new TileEntityVirtualChest();
+            virtChest = new InventoryLargeChest("Linked Chest", chest1, chest2);
+            plugin.chestGroups.put(groupName, virtChest);
+        } else {
+            virtChest = plugin.chestGroups.get(groupName);
         }
     }
 }
