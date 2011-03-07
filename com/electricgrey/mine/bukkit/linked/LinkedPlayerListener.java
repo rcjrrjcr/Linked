@@ -1,4 +1,4 @@
-package com.mythmon.mine.bukkit.linked;
+package com.electricgrey.mine.bukkit.linked;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;

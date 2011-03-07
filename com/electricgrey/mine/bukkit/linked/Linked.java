@@ -1,4 +1,4 @@
-package com.mythmon.mine.bukkit.linked;
+package com.electricgrey.mine.bukkit.linked;
 
 import java.util.HashMap;
 import java.util.Map;

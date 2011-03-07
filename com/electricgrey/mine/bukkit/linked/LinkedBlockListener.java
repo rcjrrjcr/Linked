@@ -1,4 +1,4 @@
-package com.mythmon.mine.bukkit.linked;
+package com.electricgrey.mine.bukkit.linked;
 
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.InventoryLargeChest;

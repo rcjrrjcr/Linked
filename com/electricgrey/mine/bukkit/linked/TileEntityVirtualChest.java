@@ -5,7 +5,7 @@
  * 
  * Stolen from https://github.com/Timberjaw/VirtualChest-Bukkit-Plugin
  */
-package com.mythmon.mine.bukkit.linked;
+package com.electricgrey.mine.bukkit.linked;
 
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.TileEntityChest;
