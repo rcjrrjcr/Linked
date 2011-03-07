@@ -1,17 +1,18 @@
-package com.mythmon.mine.bukkit.linked;
+package com.electricgrey.mine.bukkit.linked;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.server.InventoryLargeChest;
-
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.elmakers.mine.bukkit.plugins.persistence.PersistencePlugin;
+import com.elmakers.mine.craftbukkit.persistence.Persistence;
 
 /**
  * Plugin for Bukkit. Links together chests, so their contents are synchronized.
@@ -23,9 +24,9 @@ public class Linked extends JavaPlugin {
     private final LinkedBlockListener blockListener = new LinkedBlockListener(this);
     private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
 
-    public final Map<Block, String> chestNames = new HashMap<Block, String>();
-    public final Map<String, InventoryLargeChest> chestGroups = new HashMap<String, InventoryLargeChest>();
     public final Map<Player, String> nextActions = new HashMap<Player, String>();
+    
+    public Persistence persistence;
 
     public void onDisable() {
         // TODO: Write data to disk
@@ -38,7 +39,26 @@ public class Linked extends JavaPlugin {
     }
 
     public void onEnable() {
-        // TODO: Read data from disk
+        PluginDescriptionFile pdfFile = this.getDescription();
+        if (initialize() == true) {
+            System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled.");
+        } else {
+            System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " failed to initialize.");
+            this.getServer().getPluginManager().disablePlugin(this);
+        }
+    }
+    
+    private boolean initialize() {
+     // Enable persistence
+        Plugin checkForPersistence = this.getServer().getPluginManager().getPlugin("Persistence");
+        if (checkForPersistence != null)
+        {
+            PersistencePlugin plugin = (PersistencePlugin) checkForPersistence;
+            persistence = plugin.getPersistence();
+        } else {
+            System.out.println("This plugin depends on Persistence");
+            return false;
+        }
 
         // Register our events
         PluginManager pm = getServer().getPluginManager();
@@ -46,9 +66,8 @@ public class Linked extends JavaPlugin {
         pm.registerEvent(Event.Type.BLOCK_DAMAGED, blockListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.BLOCK_INTERACT, blockListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
-
-        PluginDescriptionFile pdfFile = this.getDescription();
-        System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled.");
+        
+        return true;
     }
 
     public boolean isDebugging(final Player player) {
