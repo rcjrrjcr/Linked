@@ -15,6 +15,9 @@ import org.bukkit.event.block.BlockInteractEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.util.BlockVector;
 
+import com.electricgrey.mine.bukkit.linked.dao.ChestName;
+import com.electricgrey.mine.bukkit.linked.dao.SharedInventory;
+
 /**
  * Linked block listener
  * 
