@@ -1,30 +1,30 @@
 package com.electricgrey.mine.bukkit.linked;
 
-import org.bukkit.block.Block;
-
 import com.elmakers.mine.bukkit.persistence.annotation.PersistClass;
 import com.elmakers.mine.bukkit.persistence.annotation.PersistField;
 
+import org.bukkit.util.BlockVector;
+
 @PersistClass(name = "ChestName", schema="linked")
 public class ChestName {
-    Block id;
+    BlockVector id;
     String groupName;
     
     /** Default constructor for persistence */
     public ChestName(){}
     
     /** For creating new objects */
-    public ChestName(Block b, String groupName) {
-        this.id = b;
+    public ChestName(BlockVector v, String groupName) {
+        this.id = v;
         this.groupName = groupName;
     }
     
     /** The chest associated with the data */
     @PersistField(id=true)
-    public Block getId() {
+    public BlockVector getId() {
         return id;
     }
-    public void setId(Block b) {
+    public void setId(BlockVector b) {
         this.id = b;
     }
     

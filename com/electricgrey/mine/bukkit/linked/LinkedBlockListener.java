@@ -13,6 +13,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockInteractEvent;
 import org.bukkit.event.block.BlockListener;
+import org.bukkit.util.BlockVector;
 
 /**
  * Linked block listener
@@ -55,7 +56,8 @@ public class LinkedBlockListener extends BlockListener {
         Player p = (Player) e;
 
         if (b.getType() == Material.CHEST) {
-            ChestName chestName = plugin.persistence.get(b, ChestName.class);
+            BlockVector v = new BlockVector(b.getLocation().toVector());
+            ChestName chestName = plugin.persistence.get(v, ChestName.class);
             if (chestName != null) {
                 String groupName = chestName.getGroupName();
                 SharedInventory sharedInventory = plugin.persistence.get(groupName, SharedInventory.class);
@@ -129,7 +131,8 @@ public class LinkedBlockListener extends BlockListener {
     }
 
     private void linkChest(Block b, String groupName) {
-        plugin.persistence.put(new ChestName(b, groupName));
+        BlockVector v = new BlockVector(b.getLocation().toVector());
+        plugin.persistence.put(new ChestName(v, groupName));
 
         SharedInventory sharedInv = plugin.persistence.get(groupName, SharedInventory.class);
         InventoryLargeChest virtChest;

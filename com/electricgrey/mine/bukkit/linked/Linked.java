@@ -49,7 +49,7 @@ public class Linked extends JavaPlugin {
     }
     
     private boolean initialize() {
-     // Enable persistence
+        // Enable persistence
         Plugin checkForPersistence = this.getServer().getPluginManager().getPlugin("Persistence");
         if (checkForPersistence != null)
         {
