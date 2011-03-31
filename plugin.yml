@@ -1,3 +1,14 @@
 name: Linked
 main: com.electricgrey.mine.bukkit.linked.Linked
 version: 0.1.0
+description: Link up chests together
+authors:
+    - 'mythmon'
+    - 'rcjrrjcr'
+commands:
+    link:
+        description: 'Link a chest to a network'
+        usage: 'Use "/link <networkname>" then click on the chest you want to link'
+    unlink:
+        description: 'Unlink a chest from a network'
+        usage: 'Use "/unlink" then click on the chest you want to link'
